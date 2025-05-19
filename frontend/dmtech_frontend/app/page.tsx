@@ -61,27 +61,22 @@ export default function Page() {
   };
 
 const handleInputChange = (
-  e: React.ChangeEvent<
-    HTMLInputElement | HTMLTextAreaElement | { name?: string; value: unknown }
-  >
+  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 ) => {
-  const target = e.target;
+  const { name, value, type } = e.target;
 
-  if (
-    target instanceof HTMLInputElement &&
-    target.type === "checkbox" &&
-    target.name
-  ) {
-    const name = target.name as keyof Task;
+  if (!name) return;
+
+  if (type === "checkbox") {
+    const checkbox = e.target as HTMLInputElement;
     setNewTask((prev) => ({
       ...prev,
-      [name]: target.checked,
+      [name]: checkbox.checked,
     }));
-  } else if (target.name) {
-    const name = target.name as keyof Task;
+  } else {
     setNewTask((prev) => ({
       ...prev,
-      [name]: target.value as string,
+      [name]: value,
     }));
   }
 };
